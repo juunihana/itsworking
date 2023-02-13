@@ -13,12 +13,12 @@ public class MainController {
     return "index";
   }
 
-  @GetMapping
+  @GetMapping("about")
   public String about() {
     return "about";
   }
 
-  @GetMapping
+  @GetMapping("useful")
   public String useful() {
     return "useful";
   }
