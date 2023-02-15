@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>It's working! | About</title>
+  <title>It's working!</title>
 
   <style type="text/css" rel="stylesheet">
     body {
@@ -147,11 +147,24 @@
   </ul>
 </div>
 <div class="centered-block main-block">
-  Я наконец-то настроил этот хостинг и прикрутил доменное имя<br/>
-  В идеале, разумеется, такими вещами надо было заниматься лет пятнадцать назад когда я только начал
-  изучать веб<br/>
-  Но всему свое время<br/>
-  Отака хуйня, малята
+  <div class="post-author" th:text="${user.name}"></div>
+  <div class="post-content" th:text="${user.info}"></div>
+</div>
+<div class="centered-block main-block">
+  <div class="post-title" th:text="${user.name} + '\' posts:'"></div>
+</div>
+<div class="centered-block main-block" th:each="post : ${userPosts}">
+  <div class="post-header">
+    <div class="post-title">
+      <a th:href="@{/posts/{postId}(postId = ${post.id})}" th:text="${post.title}"></a>
+    </div>
+    <div class="post-author">
+      <a th:href="@{/users/{userId}(userId = ${post.authorId})}" th:text="${post.author}"></a>
+    </div>
+  </div>
+  <div class="post-content" th:text="${post.content}"></div>
+  <div class="post-time"
+       th:text="${#temporals.format(post.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></div>
 </div>
 <div class="centered-block footer">
   lostemanon.ru

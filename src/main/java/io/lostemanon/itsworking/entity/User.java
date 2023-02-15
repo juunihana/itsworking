@@ -12,24 +12,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "posts_t")
+@Table(name = "users_t")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
-
-  private long userId;
-
-  private LocalDateTime createTime;
-
-  private LocalDateTime editTime;
-
-  private String title;
-
-  private String content;
+  private String name;
+  private String info;
+  private LocalDateTime joinTime;
 }

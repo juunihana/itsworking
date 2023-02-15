@@ -2,9 +2,10 @@ package io.lostemanon.itsworking.service.impl;
 
 import io.lostemanon.itsworking.dto.PostDto;
 import io.lostemanon.itsworking.entity.Post;
-import io.lostemanon.itsworking.mapper.PostMapper;
+import io.lostemanon.itsworking.mapper.GeneralMapper;
 import io.lostemanon.itsworking.repository.PostRepository;
 import io.lostemanon.itsworking.service.PostService;
+import io.lostemanon.itsworking.service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,12 +17,15 @@ import org.springframework.stereotype.Service;
 public class PostServiceImpl implements PostService {
 
   private final PostRepository postRepository;
+  private final UserService userService;
 
-  private final PostMapper postMapper = Mappers.getMapper(PostMapper.class);
+  private final GeneralMapper generalMapper = Mappers.getMapper(GeneralMapper.class);
 
   @Autowired
-  public PostServiceImpl(PostRepository postRepository) {
+  public PostServiceImpl(PostRepository postRepository,
+      UserService userService) {
     this.postRepository = postRepository;
+    this.userService = userService;
 
     save(PostDto.builder()
         .title("First post")
@@ -33,19 +37,58 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public PostDto getById(long id) {
-    return postMapper.postToPostDto(
-        postRepository.findById(id).orElse(
-            Post.builder()
-                .id(0)
-                .createTime(LocalDateTime.now())
-                .editTime(LocalDateTime.now())
-                .title("not found").build()));
+    Post post = postRepository.findById(id).orElse(null);
+    if (post != null) {
+      return PostDto.builder()
+          .id(post.getId())
+          .authorId(post.getUserId())
+          .author(userService.getById(post.getUserId()).getName())
+          .createTime(post.getCreateTime())
+          .editTime(post.getEditTime())
+          .title(post.getTitle())
+          .content(post.getContent())
+          .build();
+    }
+
+    return PostDto.builder()
+        .id(0)
+        .authorId(1)
+        .author("anon")
+        .createTime(LocalDateTime.now())
+        .editTime(LocalDateTime.now())
+        .title("not found")
+        .build();
   }
 
   @Override
   public List<PostDto> getAll() {
     return postRepository.findAll().stream()
-        .map(postMapper::postToPostDto)
+        .map(post ->
+            PostDto.builder()
+                .id(post.getId())
+                .authorId(post.getUserId())
+                .author(userService.getById(post.getUserId()).getName())
+                .createTime(post.getCreateTime())
+                .editTime(post.getEditTime())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build())
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<PostDto> getAllByUserId(long id) {
+    return postRepository.findAllByUserId(id).stream()
+        .map(post ->
+            PostDto.builder()
+                .id(post.getId())
+                .authorId(post.getUserId())
+                .author(userService.getById(post.getUserId()).getName())
+                .createTime(post.getCreateTime())
+                .editTime(post.getEditTime())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build())
         .collect(Collectors.toList());
   }
 
@@ -53,7 +96,8 @@ public class PostServiceImpl implements PostService {
   public void save(PostDto postDto) {
     postDto.setCreateTime(LocalDateTime.now());
     postDto.setEditTime(LocalDateTime.now());
-    postRepository.save(postMapper.postDtoToPost(postDto));
+    postDto.setAuthorId(1);
+    postRepository.save(generalMapper.postDtoToPost(postDto));
   }
 
   @Override
@@ -61,7 +105,7 @@ public class PostServiceImpl implements PostService {
     if (postRepository.findById(id).orElse(null) != null) {
       postDto.setCreateTime(LocalDateTime.now());
       postDto.setEditTime(LocalDateTime.now());
-      postRepository.save(postMapper.postDtoToPost(postDto));
+      postRepository.save(generalMapper.postDtoToPost(postDto));
     }
   }
 

@@ -12,8 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostDto {
 
+  private long id;
+  private long authorId;
   private LocalDateTime createTime;
   private LocalDateTime editTime;
   private String title;
+  private String author;
   private String content;
 }
