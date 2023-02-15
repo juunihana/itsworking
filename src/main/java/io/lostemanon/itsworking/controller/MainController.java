@@ -2,6 +2,7 @@ package io.lostemanon.itsworking.controller;
 
 import io.lostemanon.itsworking.dto.CommentDto;
 import io.lostemanon.itsworking.dto.PostDto;
+import io.lostemanon.itsworking.dto.UserDto;
 import io.lostemanon.itsworking.service.CommentService;
 import io.lostemanon.itsworking.service.PostService;
 import io.lostemanon.itsworking.service.UserService;
@@ -80,5 +81,24 @@ public class MainController {
     model.addAttribute("user", userService.getById(id));
     model.addAttribute("userPosts", postService.getAllByUserId(id));
     return "user";
+  }
+
+  @GetMapping("signin")
+  public String signin(Model model) {
+    model.addAttribute("user", new UserDto());
+    return "signin";
+  }
+
+  @GetMapping("signup")
+  public String signup(Model model) {
+    model.addAttribute("user", new UserDto());
+    return "signup";
+  }
+
+  @PostMapping("signup")
+  public ModelAndView signup(
+          @ModelAttribute UserDto userDto) {
+    userService.save(userDto);
+    return new ModelAndView("redirect:/");
   }
 }

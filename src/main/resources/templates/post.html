@@ -27,6 +27,7 @@
         .menu-list {
             padding: 0;
             margin: 0;
+            overflow: hidden;
         }
 
         .menu-item {
@@ -131,6 +132,10 @@
             cursor: pointer;
         }
 
+        .sign-button {
+            float: right;
+        }
+
         .footer {
             color: #afafaf;
             font-family: monospace;
@@ -143,6 +148,8 @@
 <div class="centered-block main-block">
     <ul class="menu-list">
         <li class="menu-item"><a th:href="@{/}">Blog</a></li>
+        <li class="menu-item sign-button"><a th:href="@{/signin}">Sign in</a></li>
+        <li class="menu-item sign-button"><a th:href="@{/signup}">Sign up</a></li>
     </ul>
 </div>
 <div class="centered-block main-block">
@@ -161,7 +168,7 @@
 <div th:if="${!post.comments.isEmpty()}">
     <div class="centered-block main-block">
         <div class="post-title">Comments:</div>
-    </div>
+
     <div class="centered-block main-block">
         <div th:each="comment : ${post.comments}">
             <div class="post-author">
@@ -172,8 +179,11 @@
                  th:text="${#temporals.format(comment.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></div>
         </div>
     </div>
+    </div>
 </div>
 <div class="centered-block main-block">
+
+    <div class="post-title">Write a comment:</div>
     <form class="post-form" th:action="@{/createComment}" th:object="${newComment}" method="POST">
         <input type="hidden" th:field="${newComment.postId}" th:value="${newComment.postId}"/>
         <textarea class="post-text-field" th:field="${newComment.content}" th:value="${newComment.content}"

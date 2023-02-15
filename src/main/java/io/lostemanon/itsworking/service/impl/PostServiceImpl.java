@@ -9,6 +9,7 @@ import io.lostemanon.itsworking.service.PostService;
 import io.lostemanon.itsworking.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +33,12 @@ public class PostServiceImpl implements PostService {
         this.userService = userService;
         this.commentService = commentService;
 
-        save(PostDto.builder()
+        postRepository.save(Post.builder()
+                .id(1)
                 .title("First post")
+                        .createTime(LocalDateTime.now())
+                        .editTime(LocalDateTime.now())
+                        .userId(1)
                 .content("Welcome to the main page\n"
                         + "There is no information here but in the future there will be even less\n"
                         + "What else did you expect?")

@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Post {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   private long userId;

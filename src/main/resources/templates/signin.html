@@ -153,25 +153,17 @@
   </ul>
 </div>
 <div class="centered-block main-block">
-  <div class="post-author" th:text="${user.name}"></div>
-  <div class="post-content" th:text="${user.info}"></div>
-</div>
-<div class="centered-block main-block">
-  <div class="post-title" th:text="${user.name} + '\' posts:'"></div>
-
-<div class="centered-block main-block" th:each="post : ${userPosts}">
-  <div class="post-header">
-    <div class="post-title">
-      <a th:href="@{/posts/{postId}(postId = ${post.id})}" th:text="${post.title}"></a>
-    </div>
-    <div class="post-author">
-      <a th:href="@{/users/{userId}(userId = ${post.authorId})}" th:text="${post.author}"></a>
-    </div>
-  </div>
-  <div class="post-content" th:text="${post.content}"></div>
-  <div class="post-time"
-       th:text="${#temporals.format(post.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></div>
-</div>
+  <div class="post-title">Sign in:</div>
+  <form class="post-form" th:action="@{/signin}" th:object="${user}" method="POST">
+    <input type="text" class="post-text-field" th:field="${user.name}" th:value="${user.name}"
+           placeholder="Username"/><br/>
+    <input type="password" class="post-text-field" th:field="${user.password}" th:value="${user.password}"
+           placeholder="Password"/><br/>
+    <br/>
+    <button type="submit">
+      Submit
+    </button>
+  </form>
 </div>
 <div class="centered-block footer">
   lostemanon.ru

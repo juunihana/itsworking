@@ -13,6 +13,8 @@ public class UserDto {
 
   private long id;
   private String name;
+  private String password;
+  private String passwordRepeat;
   private String info;
   private LocalDateTime joinTime;
 }
