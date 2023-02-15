@@ -34,8 +34,8 @@ public class PostServiceImpl implements PostService {
 
         save(PostDto.builder()
                 .title("First post")
-                .content("Welcome to the main page<br/>\n"
-                        + "There is no information here but in the future there will be even less<br/>\n"
+                .content("Welcome to the main page\n"
+                        + "There is no information here but in the future there will be even less\n"
                         + "What else did you expect?")
                 .build());
     }
