@@ -1,6 +1,8 @@
 package io.lostemanon.itsworking.controller;
 
+import io.lostemanon.itsworking.dto.CommentDto;
 import io.lostemanon.itsworking.dto.PostDto;
+import io.lostemanon.itsworking.service.CommentService;
 import io.lostemanon.itsworking.service.PostService;
 import io.lostemanon.itsworking.service.UserService;
 import java.util.List;
@@ -20,12 +22,15 @@ public class MainController {
 
   private final PostService postService;
   private final UserService userService;
+  private final CommentService commentService;
 
   @Autowired
   public MainController(PostService postService,
-      UserService userService) {
+      UserService userService,
+                        CommentService commentService) {
     this.postService = postService;
     this.userService = userService;
+    this.commentService = commentService;
   }
 
   @GetMapping
@@ -51,10 +56,22 @@ public class MainController {
     return new ModelAndView("redirect:/");
   }
 
-  @GetMapping("posts/{id}")
-  public String getPost(@PathVariable long id, Model model) {
-    model.addAttribute("post", postService.getById(id));
+  @PostMapping("createComment")
+  public ModelAndView createPost(
+          @ModelAttribute CommentDto commentDto) {
+      long postId = commentDto.getPostId();
+    commentService.save(postId, commentDto);
+    return new ModelAndView("redirect:/posts/" + postId);
+  }
 
+  @GetMapping("posts/{id}")
+  public String getPost(
+          @PathVariable long id,
+          Model model) {
+    model.addAttribute("post", postService.getById(id));
+    model.addAttribute("newComment", CommentDto.builder()
+            .postId(id)
+            .build());
     return "post";
   }
 
