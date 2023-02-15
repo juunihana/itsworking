@@ -79,10 +79,19 @@
     <li class="menu-item"><a th:href="@{/useful}">Some useful stuff</a></li>
   </ul>
 </div>
+<div class="main-block" th:each="post : ${posts}">
+  <p th:text="${#temporals.format(post.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></p>
+  <p th:text="${post.title}"></p>
+  <p th:text="${post.content}"></p>
+</div>
 <div class="main-block">
-  Welcome to the main page<br/>
-  There is no information here but in the future there will be even less<br/>
-  What else did you expect?
+  <form th:action="@{/createPost}" th:object="${newPost}" method="POST">
+    <input th:field="${newPost.title}" th:value="${newPost.title}"/><br/>
+    <textarea th:field="${newPost.content}" th:value="${newPost.content}" cols="40" rows="12"></textarea><br/>
+    <button type="submit">
+      Submit
+    </button>
+  </form>
 </div>
 <div class="footer">
   lostemanon.ru
