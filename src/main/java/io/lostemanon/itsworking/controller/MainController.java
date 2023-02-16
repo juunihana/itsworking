@@ -6,7 +6,6 @@ import io.lostemanon.itsworking.dto.UserDto;
 import io.lostemanon.itsworking.service.CommentService;
 import io.lostemanon.itsworking.service.PostService;
 import io.lostemanon.itsworking.service.UserService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +27,7 @@ public class MainController {
   @Autowired
   public MainController(PostService postService,
       UserService userService,
-                        CommentService commentService) {
+      CommentService commentService) {
     this.postService = postService;
     this.userService = userService;
     this.commentService = commentService;
@@ -59,20 +58,20 @@ public class MainController {
 
   @PostMapping("createComment")
   public ModelAndView createPost(
-          @ModelAttribute CommentDto commentDto) {
-      long postId = commentDto.getPostId();
+      @ModelAttribute CommentDto commentDto) {
+    long postId = commentDto.getPostId();
     commentService.save(postId, commentDto);
     return new ModelAndView("redirect:/posts/" + postId);
   }
 
   @GetMapping("posts/{id}")
   public String getPost(
-          @PathVariable long id,
-          Model model) {
+      @PathVariable long id,
+      Model model) {
     model.addAttribute("post", postService.getById(id));
     model.addAttribute("newComment", CommentDto.builder()
-            .postId(id)
-            .build());
+        .postId(id)
+        .build());
     return "post";
   }
 
@@ -97,7 +96,7 @@ public class MainController {
 
   @PostMapping("signup")
   public ModelAndView signup(
-          @ModelAttribute UserDto userDto) {
+      @ModelAttribute UserDto userDto) {
     userService.save(userDto);
     return new ModelAndView("redirect:/");
   }

@@ -1,201 +1,203 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>It's working!</title>
+  <title>It's working!</title>
 
-    <style type="text/css" rel="stylesheet">
-        body {
-            background: #1f1f1f;
-        }
+  <style type="text/css" rel="stylesheet">
+    body {
+      background: #1f1f1f;
+    }
 
-        .centered-block {
-            width: auto;
-            max-width: 1000px;
-            margin: auto auto 20px auto;
-            padding: 20px;
-        }
+    .centered-block {
+      width: auto;
+      max-width: 1000px;
+      margin: auto auto 20px auto;
+      padding: 20px;
+    }
 
-        .main-block {
-            background: #3f3f3f;
-            color: #dfdfdf;
-            font-size: 14px;
-            font-family: monospace;
-            border: solid 1px #afafaf;
-            border-radius: 5px;
-        }
+    .main-block {
+      background: #3f3f3f;
+      color: #dfdfdf;
+      font-size: 14px;
+      font-family: monospace;
+      border: solid 1px #afafaf;
+      border-radius: 5px;
+    }
 
-        .menu-list {
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-        }
+    .menu-list {
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
 
-        .menu-item {
-            display: inline-block;
-            margin-right: 20px;
-        }
+    .menu-item {
+      display: inline-block;
+      margin-right: 20px;
+    }
 
-        .menu-item a {
-            font-size: 18px;
-            text-decoration: none;
-        }
+    .menu-item a {
+      font-size: 18px;
+      text-decoration: none;
+    }
 
-        .post-title a {
-            font-size: 18px;
-            color: #dfdfdf;
-            text-decoration: none;
-        }
+    .post-title a {
+      font-size: 18px;
+      color: #dfdfdf;
+      text-decoration: none;
+    }
 
-        .post-author a {
-            font-size: 16px;
-            color: #ff9364;
-            text-decoration: none;
-        }
+    .post-author a {
+      font-size: 16px;
+      color: #ff9364;
+      text-decoration: none;
+    }
 
-        a {
-            font-size: 14px;
-            font-family: monospace;
-            color: #afafaf;
-            text-decoration: underline;
-            cursor: pointer;
-        }
+    a {
+      font-size: 14px;
+      font-family: monospace;
+      color: #afafaf;
+      text-decoration: underline;
+      cursor: pointer;
+    }
 
-        a:hover {
-            color: #ff4d00;
-        }
+    a:hover {
+      color: #ff4d00;
+    }
 
-        .post-header {
-            font-size: 14px;
-        }
+    .post-header {
+      font-size: 14px;
+    }
 
-        .post-title {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
+    .post-title {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
 
-        .post-author {
-            font-size: 16px;
-            color: #ff9364;
-        }
+    .post-author {
+      font-size: 16px;
+      color: #ff9364;
+    }
 
-        .post-time {
-            font-size: 14px;
-            color: #b4ff64;
-        }
+    .post-time {
+      font-size: 14px;
+      color: #b4ff64;
+    }
 
-        .post-content {
-            border-top: solid 1px #afafaf;
-            border-bottom: solid 1px #afafaf;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            font-size: 14px;
-            white-space: pre-line;
-        }
+    .post-content {
+      border-top: solid 1px #afafaf;
+      border-bottom: solid 1px #afafaf;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 14px;
+      white-space: pre-line;
+    }
 
-        .post-form {
-            color: #dfdfdf;
-            font-size: 14px;
-            font-family: monospace;
-            overflow: hidden;
-        }
+    .post-form {
+      color: #dfdfdf;
+      font-size: 14px;
+      font-family: monospace;
+      overflow: hidden;
+    }
 
-        .post-text-field {
-            max-width: 978px;
-            width: 100%;
-            background: #3f3f3f;
-            color: #dfdfdf;
-            font-size: 14px;
-            font-family: monospace;
-            border: solid 1px #afafaf;
-            border-radius: 5px;
-            outline: none;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
+    .post-text-field {
+      max-width: 978px;
+      width: 100%;
+      background: #3f3f3f;
+      color: #dfdfdf;
+      font-size: 14px;
+      font-family: monospace;
+      border: solid 1px #afafaf;
+      border-radius: 5px;
+      outline: none;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
 
-        .post-form button {
-            color: #dfdfdf;
-            background: #3f3f3f;
-            font-size: 14px;
-            font-family: monospace;
-            border: solid 1px #afafaf;
-            border-radius: 5px;
-            outline: none;
-            padding: 10px;
-            float: right;
-        }
+    .post-form button {
+      color: #dfdfdf;
+      background: #3f3f3f;
+      font-size: 14px;
+      font-family: monospace;
+      border: solid 1px #afafaf;
+      border-radius: 5px;
+      outline: none;
+      padding: 10px;
+      float: right;
+    }
 
-        .post-form button:hover {
-            background: #afafaf;
-            cursor: pointer;
-        }
+    .post-form button:hover {
+      background: #afafaf;
+      cursor: pointer;
+    }
 
-        .sign-button {
-            float: right;
-        }
+    .sign-button {
+      float: right;
+    }
 
-        .footer {
-            color: #afafaf;
-            font-family: monospace;
-            font-size: 12px;
-            text-align: center;
-        }
-    </style>
+    .footer {
+      color: #afafaf;
+      font-family: monospace;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 <div class="centered-block main-block">
-    <ul class="menu-list">
-        <li class="menu-item"><a th:href="@{/}">Blog</a></li>
-        <li class="menu-item sign-button"><a th:href="@{/signin}">Sign in</a></li>
-        <li class="menu-item sign-button"><a th:href="@{/signup}">Sign up</a></li>
-    </ul>
+  <ul class="menu-list">
+    <li class="menu-item"><a th:href="@{/}">Blog</a></li>
+    <li class="menu-item sign-button"><a th:href="@{/signin}">Sign in</a></li>
+    <li class="menu-item sign-button"><a th:href="@{/signup}">Sign up</a></li>
+  </ul>
 </div>
 <div class="centered-block main-block">
-    <div class="post-header">
-        <div class="post-title">
-            <a th:href="@{/posts/{postId}(postId = ${post.id})}" th:text="${post.title}"></a>
-        </div>
-        <div class="post-author">
-            <a th:href="@{/users/{userId}(userId = ${post.authorId})}" th:text="${post.author}"></a>
-        </div>
+  <div class="post-header">
+    <div class="post-title">
+      <a th:href="@{/posts/{postId}(postId = ${post.id})}" th:text="${post.title}"></a>
     </div>
-    <div class="post-content" th:text="${post.content}"></div>
-    <div class="post-time"
-         th:text="${#temporals.format(post.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></div>
+    <div class="post-author">
+      <a th:href="@{/users/{userId}(userId = ${post.authorId})}" th:text="${post.author}"></a>
+    </div>
+  </div>
+  <div class="post-content" th:text="${post.content}"></div>
+  <div class="post-time"
+       th:text="${#temporals.format(post.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></div>
 </div>
 <div th:if="${!post.comments.isEmpty()}">
-    <div class="centered-block main-block">
-        <div class="post-title">Comments:</div>
+  <div class="centered-block main-block">
+    <div class="post-title">Comments:</div>
 
     <div class="centered-block main-block">
-        <div th:each="comment : ${post.comments}">
-            <div class="post-author">
-                <a th:href="@{/users/{userId}(userId = ${comment.authorId})}" th:text="${comment.author}"></a>
-            </div>
-            <div class="post-content" th:text="${comment.content}"></div>
-            <div class="post-time"
-                 th:text="${#temporals.format(comment.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></div>
+      <div th:each="comment : ${post.comments}">
+        <div class="post-author">
+          <a th:href="@{/users/{userId}(userId = ${comment.authorId})}"
+             th:text="${comment.author}"></a>
         </div>
+        <div class="post-content" th:text="${comment.content}"></div>
+        <div class="post-time"
+             th:text="${#temporals.format(comment.createTime, 'MMM dd, yyyy HH:mm:ss', new java.util.Locale('en', 'US'))}"></div>
+      </div>
     </div>
-    </div>
+  </div>
 </div>
 <div class="centered-block main-block">
 
-    <div class="post-title">Write a comment:</div>
-    <form class="post-form" th:action="@{/createComment}" th:object="${newComment}" method="POST">
-        <input type="hidden" th:field="${newComment.postId}" th:value="${newComment.postId}"/>
-        <textarea class="post-text-field" th:field="${newComment.content}" th:value="${newComment.content}"
-                  cols="40" rows="12" placeholder="What do you want to comment about?"></textarea><br/>
-        <button type="submit">
-            Submit
-        </button>
-    </form>
+  <div class="post-title">Write a comment:</div>
+  <form class="post-form" th:action="@{/createComment}" th:object="${newComment}" method="POST">
+    <input type="hidden" th:field="${newComment.postId}" th:value="${newComment.postId}"/>
+    <textarea class="post-text-field" th:field="${newComment.content}"
+              th:value="${newComment.content}"
+              cols="40" rows="12" placeholder="What do you want to comment about?"></textarea><br/>
+    <button type="submit">
+      Submit
+    </button>
+  </form>
 </div>
 <div class="centered-block footer">
-    lostemanon.ru
-    <br/>no rights reserved
+  lostemanon.ru
+  <br/>no rights reserved
 </div>
 </body>
 </html>

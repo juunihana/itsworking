@@ -4,7 +4,7 @@ drop table if exists comments_t;
 
 create table users_t
 (
-    id        bigserial       not null primary key,
+    id        bigserial    not null primary key,
     name      varchar(100) not null,
     password  varchar(100) not null,
     info      text,
@@ -13,7 +13,7 @@ create table users_t
 
 create table posts_t
 (
-    id          bigserial    not null primary key,
+    id          bigserial not null primary key,
     user_id     bigint    not null,
     create_time timestamp not null,
     edit_time   timestamp not null,
@@ -24,7 +24,7 @@ create table posts_t
 
 create table comments_t
 (
-    id          bigserial    not null primary key,
+    id          bigserial not null primary key,
     post_id     bigint    not null,
     user_id     bigint    not null,
     create_time timestamp not null,

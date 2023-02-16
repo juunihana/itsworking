@@ -21,12 +21,13 @@ public interface GeneralMapper {
   Post postDtoToPost(PostDto postDto);
 
   UserDto userToUserDto(User user);
+
   User userDtoToUser(UserDto userDto);
 
   CommentDto commentToCommentDto(Comment comment);
 
   @Mappings({
-          @Mapping(source = "commentDto.authorId", target = "userId")
+      @Mapping(source = "commentDto.authorId", target = "userId")
   })
   Comment commentDtoToComment(CommentDto commentDto);
 }

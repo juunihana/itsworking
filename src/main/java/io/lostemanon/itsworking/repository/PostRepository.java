@@ -1,6 +1,5 @@
 package io.lostemanon.itsworking.repository;
 
-import io.lostemanon.itsworking.dto.PostDto;
 import io.lostemanon.itsworking.entity.Post;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
