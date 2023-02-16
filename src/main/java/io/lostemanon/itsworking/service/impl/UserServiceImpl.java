@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void save(UserDto userDto) {
+    userDto.setJoinTime(LocalDateTime.now());
     userRepository.save(generalMapper.userDtoToUser(userDto));
   }
 

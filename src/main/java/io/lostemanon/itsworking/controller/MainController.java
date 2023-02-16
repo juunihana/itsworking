@@ -6,6 +6,9 @@ import io.lostemanon.itsworking.dto.UserDto;
 import io.lostemanon.itsworking.service.CommentService;
 import io.lostemanon.itsworking.service.PostService;
 import io.lostemanon.itsworking.service.UserService;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.thymeleaf.util.StringUtils;
 
 @Controller
 @RequestMapping("/")
@@ -34,9 +40,17 @@ public class MainController {
   }
 
   @GetMapping
-  public String index(Model model) {
+  public String index(Model model, HttpServletRequest request) {
+    String postContent = "";
+    Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+    if (flashMap != null) {
+      postContent = (String) flashMap.get("postContent");
+    }
+
     model.addAttribute("posts", postService.getAll());
-    model.addAttribute("newPost", new PostDto());
+    model.addAttribute("newPost", PostDto.builder()
+        .content(postContent)
+        .build());
     return "index";
   }
 
@@ -51,15 +65,30 @@ public class MainController {
   }
 
   @PostMapping("createPost")
-  public ModelAndView createPost(@ModelAttribute PostDto postDto) {
+  public ModelAndView createPost(@ModelAttribute PostDto postDto,
+      RedirectAttributes model) {
+    if (StringUtils.isEmpty(postDto.getTitle())) {
+      model.addFlashAttribute("emptyTitleError", true);
+      model.addFlashAttribute("postContent", postDto.getContent());
+      return new ModelAndView("redirect:/");
+    }
+    if (StringUtils.isEmpty(postDto.getContent())) {
+      model.addFlashAttribute("postEmptyError", true);
+      model.addFlashAttribute("postContent", postDto.getContent());
+      return new ModelAndView("redirect:/");
+    }
     postService.save(postDto);
     return new ModelAndView("redirect:/");
   }
 
   @PostMapping("createComment")
-  public ModelAndView createPost(
+  public ModelAndView commentPost(RedirectAttributes model,
       @ModelAttribute CommentDto commentDto) {
     long postId = commentDto.getPostId();
+    if (StringUtils.isEmpty(commentDto.getContent())) {
+      model.addFlashAttribute("commentEmptyError", true);
+      return new ModelAndView("redirect:/posts/" + postId);
+    }
     commentService.save(postId, commentDto);
     return new ModelAndView("redirect:/posts/" + postId);
   }
@@ -88,15 +117,57 @@ public class MainController {
     return "signin";
   }
 
+  @PostMapping("signin")
+  public String signin(@ModelAttribute UserDto userDto, Model model) {
+    if (StringUtils.isEmpty(userDto.getName())) {
+      model.addAttribute("usernameEmptyError", true);
+      model.addAttribute("user", new UserDto());
+      return "signin";
+    }
+    if (StringUtils.isEmpty(userDto.getPassword())) {
+      model.addAttribute("passwordEmptyError", true);
+      model.addAttribute("user", new UserDto());
+      return "signin";
+    }
+
+    return "redirect:/";
+  }
+
   @GetMapping("signup")
   public String signup(Model model) {
     model.addAttribute("user", new UserDto());
+    model.addAttribute("passwordsMatchError", false);
     return "signup";
   }
 
   @PostMapping("signup")
   public ModelAndView signup(
-      @ModelAttribute UserDto userDto) {
+      @ModelAttribute UserDto userDto,
+      Model model) {
+    if (StringUtils.isEmpty(userDto.getName())) {
+      model.addAttribute("usernameEmptyError", true);
+      model.addAttribute("user", userDto);
+      return new ModelAndView("signup");
+    }
+    if (userService.getAll().stream()
+        .map(UserDto::getName)
+        .collect(Collectors.toList())
+        .contains(userDto.getName())) {
+      model.addAttribute("usernameAlreadyTakenError", true);
+      model.addAttribute("user", userDto);
+      return new ModelAndView("signup");
+    }
+    if (StringUtils.isEmpty(userDto.getPassword())) {
+      model.addAttribute("passwordEmptyError", true);
+      model.addAttribute("user", userDto);
+      return new ModelAndView("signup");
+    }
+    if (!userDto.getPassword().equals(userDto.getPasswordRepeat())) {
+      model.addAttribute("passwordsMatchError", true);
+      model.addAttribute("user", userDto);
+      return new ModelAndView("signup");
+    }
+
     userService.save(userDto);
     return new ModelAndView("redirect:/");
   }
